@@ -5,7 +5,9 @@ import dev.inmo.tgbotapi.extensions.api.bot.getMe
 import dev.inmo.tgbotapi.extensions.api.send.reply
 import dev.inmo.tgbotapi.extensions.behaviour_builder.buildBehaviourWithLongPolling
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onCommand
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import lib.commandArg
 
 /**
  * This method by default expects one argument in [args] field: telegram bot token
@@ -28,7 +30,11 @@ suspend fun main(args: Array<String>) {
             reply(it, "Hello, I am ${me.firstName}")
         }
 
-        // That will be called on the end of bot initiation. After that prinln will be started long polling and bot will
+        onCommand("search", requireOnlyCommandInMessage = false) {
+            reply(it, it.content.commandArg)
+        }
+
+        // That will be called on the end of bot initiation. After that println will be started long polling and bot will
         // react on your commands
         println(me)
     }.join()
