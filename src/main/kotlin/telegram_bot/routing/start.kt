@@ -2,6 +2,7 @@ package telegram_bot.routing
 
 import common.CATEGORIES_COMMAND
 import common.CURRENT_COMMAND
+import common.INFO_COMMAND
 import common.models.UserData
 import data.UsersRepository
 import dev.inmo.tgbotapi.extensions.api.send.sendTextMessage
@@ -18,13 +19,13 @@ import dev.inmo.tgbotapi.utils.PreviewFeature
 
 @PreviewFeature
 suspend fun BehaviourContext.start(message: CommonMessage<TextContent>) {
-    sendTextMessage(message.chat.id, "Привет, ${message.asFromUser()!!.user.firstName}")
+    sendTextMessage(message.chat.id, "Привет, ${message.asFromUser()!!.user.firstName}!")
 
     val userId = message.asFromUser()!!.user.id
     if (userId !in UsersRepository.usersData) {
         UsersRepository.usersData[userId] = UserData()
 
-        sendTextMessage(message.chat.id, "Это GOLBot — персональный помощник в достижении ваших целей")
+        sendTextMessage(message.chat.id, "Я GOLBot — твой индивидуальный помощник в достижении личных целей")
     }
     sendStats(message, UsersRepository.usersData[userId]!!)
 
@@ -38,6 +39,7 @@ suspend fun BehaviourContext.start(message: CommonMessage<TextContent>) {
                     row {
                         simpleButton(CATEGORIES_COMMAND)
                         simpleButton(CURRENT_COMMAND)
+                        simpleButton(INFO_COMMAND)
                     }
                 }
             )
@@ -51,5 +53,6 @@ suspend fun BehaviourContext.start(message: CommonMessage<TextContent>) {
     when (step) {
         CATEGORIES_COMMAND -> categories(message)
         CURRENT_COMMAND -> current(message)
+        INFO_COMMAND -> info(message)
     }
 }

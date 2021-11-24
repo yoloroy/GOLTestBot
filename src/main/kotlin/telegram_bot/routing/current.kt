@@ -86,8 +86,8 @@ suspend fun BehaviourContext.getRoadmapOrNull(message: CommonMessage<TextContent
     }
 
     if (desc) {
-        sendTextMessage(message.chat.id, "Ваши roadmap'ы:\n" + roadmaps.toMessageString())
-        sendTextMessage(message.chat.id, "Введите номер интересующего вас roadmap'а:")
+        sendTextMessage(message.chat.id, "На данный момент доступны дорожные карты:\n" + roadmaps.toMessageString())
+        sendTextMessage(message.chat.id, "Введите номер дорожной карты:")
     }
 
     var roadmapNumber = waitText().first().text.toIntOrNull()
